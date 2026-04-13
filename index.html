@@ -35,7 +35,8 @@
 
   <title>feeef web</title>
   <link rel="manifest" href="manifest.json">
-  <script src="https://github.com/corbado/flutter-passkeys/releases/download/2.4.0/bundle.js" type="application/javascript" async="" defer=""></script>
+  <!-- Passkeys: load synchronously next to flutter_bootstrap (see body). async/defer here races Flutter plugin registration and causes PasskeyAuthenticator.init to run before
+       bundle.js defines window.PasskeyAuthenticator (intermittent crash on web). -->
   <!-- // loading Style -->
   <style>
     /* html {
@@ -550,6 +551,11 @@ body, #loading {
       });
     }
   </script>
+  <!-- Blocking: must run before flutter_bootstrap so PasskeyAuthenticator exists when
+       passkeys_web PasskeysWeb.registerWith() calls init().
+       Vendored from https://github.com/corbado/flutter-passkeys/releases/download/2.4.0/bundle.js
+       (same-origin; avoid GitHub redirect/rate-limit flake). Bump when passkeys_web docs require a newer bundle. -->
+  <script src="passkeys_bundle.js"></script>
   <script src="flutter_bootstrap.js" async=""></script>
 </body>
 </html>
