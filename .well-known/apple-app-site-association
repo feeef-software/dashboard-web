@@ -4,7 +4,7 @@
     "details": [
       {
         "appID": "97L93HH6B4.dz.feeef.marchant",
-        "paths": ["/stores/*", "/store-invites/*", "/join", "/join/*"]
+        "paths": ["*"]
       }
     ]
   },
